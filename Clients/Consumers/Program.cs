@@ -6,16 +6,19 @@ using System.Text;
 namespace Consumers
 {
     /* Related publishers for these messages can be found in the 'Publishers' console project
+     * Note: Because we have not explicitly set the virtual host in the config file, '/' will be used.
+     *       Also, 'guest' will be the default user.
      */
 
     class Program
     {
         static void Main(string[] args)
         {
-            DirectConsumer();
+            //DirectConsumer();
+            DirectConsumer_CustomEventHandler();
         }
 
-        public static void DirectConsumer()
+        private static void DirectConsumer()
         {
             /* Pattern: One Way Message Pattern
              * Related Publisher(s): SendDirect
@@ -41,17 +44,13 @@ namespace Consumers
                     // Acknowledge evens
                     if (count % 2 == 0)
                     {
-                        Console.ForegroundColor = ConsoleColor.Yellow;
-                        Console.WriteLine($"Accept: {Encoding.UTF8.GetString(message.Body)} - {message.ConsumerTag}");
-                        Console.ForegroundColor = ConsoleColor.White;
+                        Console.WriteLine($"Accept:\t{Encoding.UTF8.GetString(message.Body)}");
                         srvc.Ack(message);
                     }
                     // Reject Odds
                     else
                     {
-                        Console.ForegroundColor = ConsoleColor.Red;
-                        Console.WriteLine($"Reject: {Encoding.UTF8.GetString(message.Body)} - {message.ConsumerTag}");
-                        Console.ForegroundColor = ConsoleColor.White;
+                        Console.WriteLine($"Reject:\t{Encoding.UTF8.GetString(message.Body)}");
                         srvc.Nack(message, false, true);
                     }
                     count++;
@@ -59,9 +58,37 @@ namespace Consumers
                     // Only take 10 for this exercise
                     if (count == 10) { break; }
                 }
-                Console.WriteLine(srvc.IsRunning());
+                Console.WriteLine(srvc.IsRunning);
             }
             Console.ReadLine();
+        }
+
+        private static void DirectConsumer_CustomEventHandler()
+        {
+            /* Pattern: One Way Message Pattern
+             * Related Publisher(s): SendDirect
+             * What this will do ...
+             * (A) Read all messages from a specified queue
+             * (B) Send them to a custom handler 'CustomReceiveHandler'
+             */
+
+            var srvcmngr = new ServiceManager();
+            var srvc = srvcmngr.ConsumerService;
+            srvc.MessageConsumer.Received += CustomReceiveHandler;
+            srvc.Read("a.new.queue");
+            Console.ReadLine();
+
+            // Connection will be disposed off when console window closed
+        }
+
+        /// <summary>
+        /// Custom 'Receive' handler, see <see cref="DirectConsumer_CustomEventHandler"/>
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="args"></param>
+        private static void CustomReceiveHandler(object sender, BasicDeliverEventArgs args)
+        {
+            Console.WriteLine($"Custom Handler:\t\t{Encoding.UTF8.GetString(args.Body)}");
         }
     }
 }

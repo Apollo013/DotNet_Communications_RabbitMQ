@@ -4,6 +4,8 @@ using Models.ServiceModels.MessageModels;
 namespace Publishers
 {
     /* Related consumers for these messages can be found in the 'Consumers' console project
+     * Note: Because we have not explicitly set the virtual host in the config file, '/' will be used.
+     *       Also, 'guest' will be the default user.
      */
 
     class Program
@@ -22,7 +24,7 @@ namespace Publishers
              * (B) Create a Queue called "a.new.queue".
              * (C) Bind the queue to the exchange
              * (D) Because the default for the message 'SendType' is 'direct' and a 'RoutingKey' is
-             *     provided, the message will be sent directly to "a.new.queue".
+             *     provided, the message will be sent directly to "a.new.queue".        
              */
             using (var mngr = new ServiceManager())
             {

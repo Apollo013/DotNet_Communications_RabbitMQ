@@ -14,7 +14,7 @@ namespace MessageService.Services.TransportServices.Consumers.Base
         string ConsumerTag { get; }
         bool NoAck { get; }
         bool IsRunning { get; }
-        void Read(string queueName, bool noAck, string consumerTag);
+        void Read(string queueName, bool noAck = false, string consumerTag = null);
         bool Ack();
         bool Ack(BasicDeliverEventArgs args);
         bool Ack(ulong deliveryTag);

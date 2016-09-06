@@ -75,12 +75,11 @@ namespace MessageService.Services.TransportServices.Consumers
             // Subscribe to the 'Received' event which will allow us to add each message to the collection as they come in
             MessageConsumer.Received += (sender, args) =>
             {
-                Console.ForegroundColor = ConsoleColor.White;
                 messageQueue.Add(args);
-                Console.WriteLine($"Message Delivered: {messageQueue.Count} - {Encoding.UTF8.GetString(args.Body)}");
+                Console.WriteLine($"Added To Collection: {Encoding.UTF8.GetString(args.Body)}");
             };
 
-            // Subscribe to the 'ConsumerCancelled' event which wil alow us to handle any cancellations
+            // Subscribe to the 'ConsumerCancelled' event which wil allow us to handle any cancellations
             MessageConsumer.ConsumerCancelled += ConsumerCancelledEventHandler;
 
             // Consume messages from RabbitMQ server
