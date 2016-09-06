@@ -16,18 +16,33 @@ namespace MessageService.Services.TransportServices.Consumers
     /// </summary>
     public class EnumerableConsumerService : IEnumerableConsumerService
     {
+        #region Fields
         protected readonly object messageEventLock = new object();
         private CancellationTokenSource messageQueueCts = new CancellationTokenSource();
-        protected volatile EventingBasicConsumer messageConsumer;
+        //protected volatile EventingBasicConsumer messageConsumer;
         private BlockingCollection<BasicDeliverEventArgs> messageQueue = new BlockingCollection<BasicDeliverEventArgs>(new ConcurrentQueue<BasicDeliverEventArgs>());
+        #endregion
 
         #region PROPERTIES
         public IModel Channel { get; protected set; }
-        public IBasicConsumer Consumer { get { return messageConsumer; } }
         public BasicDeliverEventArgs LatestDelivery { get; protected set; }
+        private volatile EventingBasicConsumer _messageConsumer;
+        public EventingBasicConsumer MessageConsumer
+        {
+            get
+            {
+                if (_messageConsumer == null)
+                {
+                    _messageConsumer = new EventingBasicConsumer(Channel);
+                }
+                return _messageConsumer;
+            }
+            private set { _messageConsumer = value; }
+        }
         public string QueueName { get; protected set; }
         public string ConsumerTag { get; protected set; }
         public bool NoAck { get; protected set; }
+        public bool IsRunning { get { return MessageConsumer.IsRunning; } }
         #endregion
 
         #region CONSTRUCTORS
@@ -56,23 +71,21 @@ namespace MessageService.Services.TransportServices.Consumers
 
             QueueName = queueName;
             NoAck = noAck;
-            messageConsumer = new EventingBasicConsumer(Channel);
-            messageConsumer.Received += (sender, args) =>
+
+            // Subscribe to the 'Received' event which will allow us to add each message to the collection as they come in
+            MessageConsumer.Received += (sender, args) =>
             {
                 Console.ForegroundColor = ConsoleColor.White;
                 messageQueue.Add(args);
                 Console.WriteLine($"Message Delivered: {messageQueue.Count} - {Encoding.UTF8.GetString(args.Body)}");
             };
-            messageConsumer.ConsumerCancelled += ConsumerCancelledEventHandler;
-            // messageConsumer.
-            ConsumerTag = (consumerTag == null) ? Channel.BasicConsume(QueueName, NoAck, messageConsumer) : Channel.BasicConsume(QueueName, NoAck, consumerTag, messageConsumer);
-            LatestDelivery = null;
-            //return this;
-        }
 
-        public bool IsRunning()
-        {
-            return messageConsumer.IsRunning;
+            // Subscribe to the 'ConsumerCancelled' event which wil alow us to handle any cancellations
+            MessageConsumer.ConsumerCancelled += ConsumerCancelledEventHandler;
+
+            // Consume messages from RabbitMQ server
+            ConsumerTag = (consumerTag == null) ? Channel.BasicConsume(QueueName, NoAck, MessageConsumer) : Channel.BasicConsume(QueueName, NoAck, consumerTag, MessageConsumer);
+            LatestDelivery = null;
         }
         #endregion
 
@@ -236,7 +249,7 @@ namespace MessageService.Services.TransportServices.Consumers
         public BasicDeliverEventArgs Next()
         {
             BasicDeliverEventArgs args = null;
-            EventingBasicConsumer consumer = messageConsumer;
+            EventingBasicConsumer consumer = MessageConsumer;
             try
             {
                 if (consumer == null || Channel.IsClosed)
@@ -296,7 +309,7 @@ namespace MessageService.Services.TransportServices.Consumers
         {
             try
             {
-                var consumer = messageConsumer;
+                var consumer = MessageConsumer;
                 if (consumer == null || Channel.IsClosed)
                 {
                     UpdateLatestDelivery(null);
@@ -328,7 +341,7 @@ namespace MessageService.Services.TransportServices.Consumers
         {
             lock (messageEventLock)
             {
-                messageConsumer = null;
+                MessageConsumer = null;
                 UpdateLatestDelivery(null);
             }
         }
@@ -360,10 +373,10 @@ namespace MessageService.Services.TransportServices.Consumers
             {
                 var cancelConsumer = false;
 
-                if (messageConsumer != null)
+                if (MessageConsumer != null)
                 {
-                    cancelConsumer = messageConsumer.IsRunning;
-                    messageConsumer = null;
+                    cancelConsumer = MessageConsumer.IsRunning;
+                    MessageConsumer = null;
                 }
 
                 if (cancelConsumer)
