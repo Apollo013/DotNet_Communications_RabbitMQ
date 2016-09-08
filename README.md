@@ -21,7 +21,7 @@ Developed with Visual Studio 2015 Community
 |Pattern|Publisher Code|ConsumerCode|
 |-------|--------------|------------|
 |One Way Message Pattern|[Here](https://github.com/Apollo013/RabbitMQ_CSharp/blob/master/Clients/Publishers/Program.cs)|[Here](https://github.com/Apollo013/RabbitMQ_CSharp/blob/master/Clients/Consumers/Program.cs)|
-
+|Worker Queues Message Pattern|[Here](https://github.com/Apollo013/RabbitMQ_CSharp/blob/master/Clients/Publishers/Program.cs)|[Here](https://github.com/Apollo013/RabbitMQ_CSharp/blob/master/Clients/Consumers/Program.cs)|
 ---
 
 ###Solution Layout
