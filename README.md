@@ -12,10 +12,11 @@ Developed with Visual Studio 2015 Community
 |Example|
 |-------|
 |Various message exchange patterns using RabbitMQ (see below)|
-|Declaring & binding exchanges using direct, fanout types|
-|Declaring & binding queues|
+|Declaring & binding exchanges & queues|
+|Exchange Types: direct, fanout types|
+|Exchange, Queue & Message Persistence|
 |Different components have been constructed for managing Exchanges, Queues, Publishing & Consuming messages and brought together a a single unit under a service manager component [See Here](https://github.com/Apollo013/RabbitMQ_CSharp/tree/master/MessageService/Services) and [Here](https://github.com/Apollo013/RabbitMQ_CSharp/blob/master/MessageService/Managers/ServiceManager.cs)|
-|Acknowledging and rejecting messages|
+|Acknowledging and rejecting messages (Ack / NoAck)|
 |RabbitMQ server configuration through appSettings - see ['ConnectionProperties' class](https://github.com/Apollo013/RabbitMQ_CSharp/blob/master/Models/ServiceModels/ConnectionModels/ConnectionProperties.cs) which extends the ['PropertyBase' class](https://github.com/Apollo013/RabbitMQ_CSharp/blob/master/Models/ServiceModels/Base/PropertyBase.cs) that automatically reads appsettings in the app.config file|
 
 ---
