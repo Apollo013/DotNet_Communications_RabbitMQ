@@ -1,4 +1,5 @@
 ﻿using MessageService.Services.TransportServices.Consumers.Base;
+using Models.ServiceModels.MessageModels;
 using RabbitMQ.Client;
 using RabbitMQ.Client.Events;
 using RabbitMQ.Client.Exceptions;
@@ -14,63 +15,55 @@ namespace MessageService.Services.TransportServices.Consumers
     /// <summary>
     /// Enumerable class responsible for consuming messages
     /// </summary>
-    public class EnumerableConsumerService : IEnumerableConsumerService
+    public class EnumerableConsumerService : EnumerableConsumerServiceBase, IDisposable
     {
-        #region Fields
+        #region FIELDS
         protected readonly object messageEventLock = new object();
         private CancellationTokenSource messageQueueCts = new CancellationTokenSource();
-        //protected volatile EventingBasicConsumer messageConsumer;
         private BlockingCollection<BasicDeliverEventArgs> messageQueue = new BlockingCollection<BasicDeliverEventArgs>(new ConcurrentQueue<BasicDeliverEventArgs>());
         #endregion
 
-        #region PROPERTIES
-        public IModel Channel { get; protected set; }
-        public BasicDeliverEventArgs LatestDelivery { get; protected set; }
-        private volatile EventingBasicConsumer _messageConsumer;
-        public EventingBasicConsumer MessageConsumer
-        {
-            get
-            {
-                if (_messageConsumer == null)
-                {
-                    _messageConsumer = new EventingBasicConsumer(Channel);
-                }
-                return _messageConsumer;
-            }
-            private set { _messageConsumer = value; }
-        }
-        public string QueueName { get; protected set; }
-        public string ConsumerTag { get; protected set; }
-        public bool NoAck { get; protected set; }
-        public bool IsRunning { get { return MessageConsumer.IsRunning; } }
-        #endregion
-
         #region CONSTRUCTORS
-        public EnumerableConsumerService(IModel channel) : this(channel, "", true)
-        { }
-
-        public EnumerableConsumerService(IModel channel, string queueName) : this(channel, queueName, false)
-        { }
-
-        public EnumerableConsumerService(IModel channel, string queueName, bool noAck, string consumerTag = null)
+        public EnumerableConsumerService(IModel channel)
         {
+            if (channel == null)
+            {
+                throw new ArgumentNullException("Communication channel must be provided");
+            }
             Channel = channel;
-            QueueName = queueName;
-            NoAck = noAck;
-            Read(queueName, noAck, consumerTag);
         }
         #endregion
 
-        #region READ
-        public void Read(string queueName, bool noAck = false, string consumerTag = null)
+        #region READS
+        public override void Read(string queueName, bool noAck = false, string consumerTag = null, QualityOfService quality = null)
         {
             if (String.IsNullOrWhiteSpace(queueName))
             {
-                return;
+                throw new ArgumentNullException("Please specify a valid queue name");
             }
 
-            QueueName = queueName;
-            NoAck = noAck;
+            Read(new ConsumerRequest()
+            {
+                QueueName = queueName,
+                NoAck = noAck,
+                ConsumerTag = consumerTag,
+                QualityOfService = quality
+            });
+        }
+
+        public override void Read(ConsumerRequest request)
+        {
+            if (request == null)
+            {
+                throw new ArgumentNullException("Please specify a valid request");
+            }
+
+            if (String.IsNullOrWhiteSpace(request.QueueName))
+            {
+                throw new ArgumentNullException("Please specify a valid queue name");
+            }
+
+            Request = request;
 
             // Subscribe to the 'Received' event which will allow us to add each message to the collection as they come in
             MessageConsumer.Received += (sender, args) =>
@@ -82,10 +75,17 @@ namespace MessageService.Services.TransportServices.Consumers
             // Subscribe to the 'ConsumerCancelled' event which wil allow us to handle any cancellations
             MessageConsumer.ConsumerCancelled += ConsumerCancelledEventHandler;
 
+            //Console.WriteLine($"{ServiceQuality.PrefetchSize} - {ServiceQuality.PrefetchCount} - {ServiceQuality.Global}");
+            // Quality of service
+            //we require one message at a time and we don’t want to process any additional messages until the actual one has been processed
+            Channel.BasicQos(ServiceQuality.PrefetchSize, ServiceQuality.PrefetchCount, ServiceQuality.Global);
+
             // Consume messages from RabbitMQ server
-            ConsumerTag = (consumerTag == null) ? Channel.BasicConsume(QueueName, NoAck, MessageConsumer) : Channel.BasicConsume(QueueName, NoAck, consumerTag, MessageConsumer);
+            ConsumerTag = (ConsumerTag == null) ? Channel.BasicConsume(QueueName, NoAck, MessageConsumer) : Channel.BasicConsume(QueueName, NoAck, ConsumerTag, MessageConsumer);
             LatestDelivery = null;
         }
+
+
         #endregion
 
         #region ACKNOWLEDGEMENTS - 'Ack'
@@ -102,7 +102,7 @@ namespace MessageService.Services.TransportServices.Consumers
         /// </para>
         /// </remarks>
         /// <returns></returns>
-        public bool Ack()
+        public override bool Ack()
         {
             return Ack(LatestDelivery);
         }
@@ -121,7 +121,7 @@ namespace MessageService.Services.TransportServices.Consumers
         /// </remarks>
         /// <param name="args"></param>
         /// <returns></returns>
-        public bool Ack(BasicDeliverEventArgs args)
+        public override bool Ack(BasicDeliverEventArgs args)
         {
             if (args == null) { return false; }
 
@@ -147,7 +147,7 @@ namespace MessageService.Services.TransportServices.Consumers
         /// </remarks>
         /// <param name="deliveryTag"></param>
         /// <returns></returns>
-        public bool Ack(ulong deliveryTag)
+        public override bool Ack(ulong deliveryTag)
         {
             if (!NoAck && Channel.IsOpen)
             {
@@ -172,9 +172,9 @@ namespace MessageService.Services.TransportServices.Consumers
         /// </para>
         /// </remarks>
         /// <param name="requeue">If True, instructs server to requeue the message</param>
-        public void Nack(bool requeue)
+        public override void Nack(bool requeue)
         {
-            Nack(LatestDelivery, false, requeue);
+            Nack(LatestDelivery, requeue, false);
         }
 
         /// <summary>
@@ -191,9 +191,9 @@ namespace MessageService.Services.TransportServices.Consumers
         /// </remarks>
         /// <param name="multiple">If True, instructs the server to reject all prior messages</param>
         /// <param name="requeue">If True, instructs server to requeue the message</param>
-        public void Nack(bool multiple, bool requeue)
+        public override void Nack(bool requeue, bool multiple)
         {
-            Nack(LatestDelivery, multiple, requeue);
+            Nack(LatestDelivery, requeue, multiple);
         }
 
         /// <summary>
@@ -211,7 +211,7 @@ namespace MessageService.Services.TransportServices.Consumers
         /// <param name="args">The message to reject</param>
         /// <param name="multiple">If True, instructs the server to reject all prior messages</param>
         /// <param name="requeue">If True, instructs server to requeue the message</param>
-        public void Nack(BasicDeliverEventArgs args, bool multiple, bool requeue)
+        public override void Nack(BasicDeliverEventArgs args, bool requeue, bool multiple)
         {
             if (args == null) { return; }
 
@@ -245,7 +245,7 @@ namespace MessageService.Services.TransportServices.Consumers
         /// </para>
         /// </remarks>
         /// <returns></returns>
-        public BasicDeliverEventArgs Next()
+        public override BasicDeliverEventArgs Next()
         {
             BasicDeliverEventArgs args = null;
             EventingBasicConsumer consumer = MessageConsumer;
@@ -304,7 +304,7 @@ namespace MessageService.Services.TransportServices.Consumers
         /// <param name="millisecondsTimeout">Time-out value</param>
         /// <param name="result">The next delivered message</param>
         /// <returns></returns>
-        public bool Next(int millisecondsTimeout, out BasicDeliverEventArgs result)
+        public override bool Next(int millisecondsTimeout, out BasicDeliverEventArgs result)
         {
             try
             {
@@ -335,7 +335,7 @@ namespace MessageService.Services.TransportServices.Consumers
         }
         #endregion
 
-        #region MISC METHODS
+        #region COMSUMER EVENT HANDLERS
         private void ConsumerCancelledEventHandler(object sender, ConsumerEventArgs e)
         {
             lock (messageEventLock)
@@ -345,13 +345,14 @@ namespace MessageService.Services.TransportServices.Consumers
             }
         }
 
-        protected void UpdateLatestDelivery(BasicDeliverEventArgs args)
+        private void UpdateLatestDelivery(BasicDeliverEventArgs args)
         {
             lock (messageEventLock)
             {
                 LatestDelivery = args;
             }
         }
+
         #endregion
 
         #region IDISPOSABLE IMPLEMENTATION
@@ -366,7 +367,7 @@ namespace MessageService.Services.TransportServices.Consumers
         /// <summary>
         /// Disposes of any managed objects
         /// </summary>
-        public void Close()
+        public override void Close()
         {
             try
             {
@@ -412,7 +413,7 @@ namespace MessageService.Services.TransportServices.Consumers
         /// Does not acknowledge any deliveries at all. Ack() must be called explicitly on received deliveries.
         /// </para>
         /// </remarks>
-        public object Current
+        public override object Current
         {
             get
             {
@@ -424,25 +425,17 @@ namespace MessageService.Services.TransportServices.Consumers
             }
         }
 
-        public BasicDeliverEventArgs LatestEvent
-        {
-            get
-            {
-                throw new NotImplementedException();
-            }
-        }
-
-        public IEnumerator GetEnumerator()
+        public override IEnumerator GetEnumerator()
         {
             return this;
         }
 
-        public bool MoveNext()
+        public override bool MoveNext()
         {
             return Next() != null;
         }
 
-        public void Reset()
+        public override void Reset()
         {
             // It really doesn't make sense to try to reset a subscription.
             throw new InvalidOperationException("Subscription.Reset() does not make sense");

@@ -18,7 +18,8 @@ namespace Publishers
         private static void SendDirect()
         {
             /* Pattern: One Way Message Pattern
-             * Related Consumer(s): DirectConsumer
+             * Related Consumer(s): DirectConsumer 
+             *                      DirectConsumer_CustomEventHandler
              * What this will do ...
              * (A) Create an Exchange called "a.new.exchange". The default type for this is 'direct'
              * (B) Create a Queue called "a.new.queue".

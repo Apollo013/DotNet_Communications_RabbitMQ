@@ -58,7 +58,7 @@
     <Compile Include="Services\Common\ServiceBase.cs" />
     <Compile Include="Services\ConnectionServices\ConnectionService.cs" />
     <Compile Include="Services\ConnectionServices\IConnectionService.cs" />
-    <Compile Include="Services\TransportServices\Consumers\Base\IEnumerableConsumerService.cs" />
+    <Compile Include="Services\TransportServices\Consumers\Base\ConsumerServiceBase.cs" />
     <Compile Include="Services\TransportServices\Consumers\EnumerableConsumerService.cs" />
     <Compile Include="Services\TransportServices\Publishers\Base\IMessagePublisher.cs" />
     <Compile Include="Services\TransportServices\Publishers\Base\IPublisherService.cs" />

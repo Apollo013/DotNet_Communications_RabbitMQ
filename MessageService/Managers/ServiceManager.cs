@@ -83,12 +83,13 @@ namespace MessageService.Managers
             set { _publisherService = value; }
         }
 
-        private IEnumerableConsumerService _ConsumerService;
+        private EnumerableConsumerServiceBase _ConsumerService;
 
-        public IEnumerableConsumerService ConsumerService
+        public EnumerableConsumerServiceBase ConsumerService
         {
-            get {
-                if(_ConsumerService == null)
+            get
+            {
+                if (_ConsumerService == null)
                 {
                     return new EnumerableConsumerService(Connection.Channel);
                 }

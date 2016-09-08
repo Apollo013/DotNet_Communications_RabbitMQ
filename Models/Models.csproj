@@ -68,6 +68,7 @@
     <Compile Include="ServiceModels\AddressModels\ExchangeAddressModel.cs" />
     <Compile Include="ServiceModels\MessageModels\MessageModel.cs" />
     <Compile Include="ServiceModels\MessageModels\ConsumerRequest.cs" />
+    <Compile Include="ServiceModels\MessageModels\QualityOfService.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />

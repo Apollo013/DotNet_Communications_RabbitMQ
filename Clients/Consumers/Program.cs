@@ -1,4 +1,5 @@
 ﻿using MessageService.Managers;
+using Models.ServiceModels.MessageModels;
 using RabbitMQ.Client.Events;
 using System;
 using System.Text;
@@ -15,9 +16,11 @@ namespace Consumers
         static void Main(string[] args)
         {
             //DirectConsumer();
-            DirectConsumer_CustomEventHandler();
+            //DirectConsumer_CustomEventHandler();
+            DirectConsumer_Worker(); // WORKER QUEUE - RUN MULTIPLE INSTANCES OF THIS PROGRAM TO CHECK
         }
 
+        #region ONE WAY MESSAGE PATTERN EXAMPLES
         private static void DirectConsumer()
         {
             /* Pattern: One Way Message Pattern
@@ -80,6 +83,33 @@ namespace Consumers
 
             // Connection will be disposed off when console window closed
         }
+
+        #endregion
+
+        #region WORKER QUEUE MESSAGE PATTERN EXAMPLES
+        private static void DirectConsumer_Worker()
+        {
+            /* Pattern: Worker Queue Message Pattern
+             * Related Publisher(s): SendDirect
+             * What this will do ...
+             * (A) Read a single message from a specified queue
+             * (B) Send it to a custom handler 'CustomReceiveHandler'
+             */
+
+            var srvcmngr = new ServiceManager();
+            var srvc = srvcmngr.ConsumerService;
+            srvc.MessageConsumer.Received += CustomReceiveHandler;
+            srvc.Read(new ConsumerRequest()
+            {
+                QueueName = "a.new.queue",
+                QualityOfService = new QualityOfService() { PrefetchCount = 1 }
+            });
+            Console.ReadLine();
+
+            // Connection will be disposed off when console window closed
+        }
+
+        #endregion
 
         /// <summary>
         /// Custom 'Receive' handler, see <see cref="DirectConsumer_CustomEventHandler"/>
