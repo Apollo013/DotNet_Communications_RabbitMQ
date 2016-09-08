@@ -8,8 +8,8 @@ Developed with Visual Studio 2015 Community
 
 ---
 
-###What's being demonstrated
-|Example|
+###Features being demonstrated
+|Feature|
 |-------|
 |Various message exchange patterns using RabbitMQ (see below)|
 |Declaring & binding exchanges & queues|
