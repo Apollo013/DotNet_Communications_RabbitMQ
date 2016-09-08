@@ -39,12 +39,12 @@ Developed with Visual Studio 2015 Community
 ###Solution Layout
 |Assembly|Description|
 |--------|-----------|
-|Message Service|Contains all the services that interact with the RabbitMQ server|
-|Logging Service| Abstract logging service|
+|Message Service|Contains all the service componentss that interact with the RabbitMQ server|
+|Logging Service| Logging service wrapper|
 |Models| Contains any entity models used to pass information|
 |Tests|Unit tests using Nunit|
 |Client/Publishers|Client used for pushing messages to the server|
-|Client/Consumers|Client used to read messages from the server|
+|Client/Consumers|Client used to consume messages from the server|
 
 
 ---
