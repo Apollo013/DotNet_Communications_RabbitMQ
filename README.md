@@ -11,7 +11,7 @@ Developed with Visual Studio 2015 Community
 ###What's being demonstrated
 |Example|
 |-------|
-|Various message exchange patterns using RabbitMQ|
+|Various message exchange patterns using RabbitMQ (see below)|
 |Declaring & binding exchanges using direct, fanout types|
 |Declaring & binding queues|
 |Different components have been constructed for managing Exchanges, Queues, Publishing & Consuming messages and brought together a a single unit under a service manager component [See Here](https://github.com/Apollo013/RabbitMQ_CSharp/tree/master/MessageService/Services) and [Here](https://github.com/Apollo013/RabbitMQ_CSharp/blob/master/MessageService/Managers/ServiceManager.cs)|
