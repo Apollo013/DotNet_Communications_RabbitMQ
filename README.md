@@ -39,7 +39,7 @@ Developed with Visual Studio 2015 Community
 ###Solution Layout
 |Assembly|Description|
 |--------|-----------|
-|Message Service|Contains all the service componentss that interact with the RabbitMQ server|
+|Message Service|A wrapper service that contains all the components that interact with the RabbitMQ server|
 |Logging Service| Logging service wrapper|
 |Models| Contains any entity models used to pass information|
 |Tests|Unit tests using Nunit|
