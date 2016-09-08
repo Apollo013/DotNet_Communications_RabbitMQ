@@ -4,7 +4,7 @@ A multi assembly solution demonstrating various message patterns for publishing 
 
 ---
 
-Developed with Visual Studion 2015 Community
+Developed with Visual Studio 2015 Community
 
 ---
 
