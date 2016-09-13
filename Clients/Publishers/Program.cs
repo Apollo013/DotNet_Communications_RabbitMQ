@@ -139,6 +139,5 @@ namespace Publishers
         }
         #endregion
 
-
     }
 }

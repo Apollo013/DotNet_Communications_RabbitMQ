@@ -134,6 +134,5 @@ namespace Consumers
         {
             Console.WriteLine($"Custom Handler:\t\t{Encoding.UTF8.GetString(args.Body)}");
         }
-
     }
 }
