@@ -1,0 +1,4 @@
+﻿(1) HANDLE CONNECTION FAILURES
+	https://www.rabbitmq.com/reliability.html
+	IConnection.ConnectionShutdown and IModel.ModelShutdown events
+

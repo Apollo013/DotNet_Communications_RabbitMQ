@@ -71,7 +71,7 @@ namespace MessageService.Services.AddressServices
         /// <exception cref="ArgumentNullException"></exception>
         /// <exception cref="ServiceException"></exception>
         /// <exception cref="ValidationException"></exception>
-        public void Declare(string name, string type = RabbitMQ.Client.ExchangeType.Direct, bool durable = true, bool autoDelete = false, IDictionary<string, object> args = null, IList<QueueAddressModel> queues = null)
+        public void Declare(string name, string type = RabbitMQ.Client.ExchangeType.Direct, bool durable = true, bool autoDelete = false, IDictionary<string, object> args = null, List<QueueAddressModel> queues = null)
         {
             Declare(new ExchangeAddressModel()
             {
@@ -84,9 +84,9 @@ namespace MessageService.Services.AddressServices
             });
         }
 
-
         public void Declare(string name, string queue, string type = "direct", bool durable = true, bool autoDelete = false, IDictionary<string, object> args = null)
         {
+            Console.WriteLine($"{name} {queue} {type}");
             Declare(new ExchangeAddressModel()
             {
                 Name = name,
@@ -108,6 +108,7 @@ namespace MessageService.Services.AddressServices
         /// <returns></returns>
         public void Declare(ExchangeAddressModel exchange)
         {
+            Console.WriteLine($"{exchange.Name} {exchange.ExchangeType}");
             try
             {
                 Validate(exchange, "Exchange to declare cannot be null");
@@ -142,7 +143,7 @@ namespace MessageService.Services.AddressServices
         /// <exception cref="ArgumentNullException"></exception>
         /// <exception cref="ServiceException"></exception>
         /// <exception cref="ValidationException"></exception>
-        public void DeclareMany(IEnumerable<ExchangeAddressModel> exchanges)
+        public void DeclareMany(List<ExchangeAddressModel> exchanges)
         {
             if (exchanges == null)
             {
@@ -193,7 +194,7 @@ namespace MessageService.Services.AddressServices
         /// <exception cref="ServiceException"></exception>
         /// <exception cref="ValidationException"></exception>
         /// <param name="bindings"></param>
-        public void BindMany(IEnumerable<ExchangeBindingModel> bindings)
+        public void BindMany(List<ExchangeBindingModel> bindings)
         {
             if (bindings == null)
             {
@@ -248,7 +249,7 @@ namespace MessageService.Services.AddressServices
         /// <exception cref="ServiceException"></exception>
         /// <exception cref="ValidationException"></exception>
         /// <param name="exchanges"></param>
-        public void DeleteMany(IEnumerable<ExchangeDeleteModel> exchanges)
+        public void DeleteMany(List<ExchangeDeleteModel> exchanges)
         {
             if (exchanges == null)
             {

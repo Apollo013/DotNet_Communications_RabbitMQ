@@ -13,6 +13,8 @@ namespace Consumers
 
     class Program
     {
+        private static ServiceManager srvcmngr = new ServiceManager();
+
         static void Main(string[] args)
         {
             //DirectConsumer();
@@ -32,37 +34,33 @@ namespace Consumers
              * (D) Reject the other half (These will be requeued.
              */
 
-            using (var srvcmngr = new ServiceManager())
+            var count = 0;
+            srvcmngr.ConsumerService.Read("a.new.queue");
+
+            // Here we loop through the consumer service and acknowledge 50% of them (reject 50% and requeue them)
+            while (srvcmngr.ConsumerService.MoveNext())
             {
-                var srvc = srvcmngr.ConsumerService;
-
-                var count = 0;
-                srvc.Read("a.new.queue");
-
-                // Here we loop through the consumer service and acknowledge 50% of them (reject 50% and requeue them)
-                while (srvc.MoveNext())
+                // Grab the message
+                BasicDeliverEventArgs message = (BasicDeliverEventArgs)srvcmngr.ConsumerService.Current;
+                // Acknowledge evens
+                if (count % 2 == 0)
                 {
-                    // Grab the message
-                    BasicDeliverEventArgs message = (BasicDeliverEventArgs)srvc.Current;
-                    // Acknowledge evens
-                    if (count % 2 == 0)
-                    {
-                        Console.WriteLine($"Accept:\t{Encoding.UTF8.GetString(message.Body)}");
-                        srvc.Ack(message);
-                    }
-                    // Reject Odds
-                    else
-                    {
-                        Console.WriteLine($"Reject:\t{Encoding.UTF8.GetString(message.Body)}");
-                        srvc.Nack(message, false, true);
-                    }
-                    count++;
-
-                    // Only take 10 for this exercise
-                    if (count == 10) { break; }
+                    Console.WriteLine($"Accept:\t{Encoding.UTF8.GetString(message.Body)}");
+                    srvcmngr.ConsumerService.Ack(message);
                 }
-                Console.WriteLine(srvc.IsRunning);
+                // Reject Odds
+                else
+                {
+                    Console.WriteLine($"Reject:\t{Encoding.UTF8.GetString(message.Body)}");
+                    srvcmngr.ConsumerService.Nack(message, false, true);
+                }
+                count++;
+
+                // Only take 10 for this exercise
+                if (count == 10) { break; }
             }
+
+            Console.WriteLine(srvcmngr.ConsumerService.IsRunning);
             Console.ReadLine();
         }
 
@@ -96,17 +94,13 @@ namespace Consumers
              * (B) Send it to a custom handler 'CustomReceiveHandler'
              */
 
-            var srvcmngr = new ServiceManager();
-            var srvc = srvcmngr.ConsumerService;
-            srvc.MessageConsumer.Received += CustomReceiveHandler;
-            srvc.Read(new ConsumerRequest()
+            srvcmngr.ConsumerService.MessageConsumer.Received += CustomReceiveHandler;
+            srvcmngr.ConsumerService.Read(new ConsumerRequest()
             {
                 QueueName = "a.new.queue",
                 QualityOfService = new QualityOfService() { PrefetchCount = 1 }
             });
             Console.ReadLine();
-
-            // Connection will be disposed off when console window closed
         }
 
         #endregion

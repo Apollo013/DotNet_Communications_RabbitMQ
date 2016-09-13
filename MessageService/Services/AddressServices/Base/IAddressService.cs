@@ -11,11 +11,11 @@ namespace MessageService.Services.AddressServices.Base
         where TDeleteAddress : DeleteBase
     {
         void Declare(TAddress address);
-        void DeclareMany(IEnumerable<TAddress> addresses);
+        void DeclareMany(List<TAddress> addresses);
         void Bind(TBindingAddress binding);
-        void BindMany(IEnumerable<TBindingAddress> bindings);
+        void BindMany(List<TBindingAddress> bindings);
         void Delete(TDeleteAddress address);
-        void DeleteMany(IEnumerable<TDeleteAddress> addresses);
+        void DeleteMany(List<TDeleteAddress> addresses);
         void Unbind(TBindingAddress binding);
     }
 }

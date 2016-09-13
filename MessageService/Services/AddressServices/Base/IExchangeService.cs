@@ -8,8 +8,8 @@ namespace MessageService.Services.AddressServices.Base
     public interface IExchangeService : IAddressService<ExchangeAddressModel, ExchangeBindingModel, ExchangeDeleteModel>
     {
         IQueueService QueueService { get; }
-        void Declare(string name, string type = RabbitMQ.Client.ExchangeType.Direct, bool durable = true, bool autoDelete = false, IDictionary<string, object> args = null, IList<QueueAddressModel> queues = null);
-        void Declare(string name, string queue, string type = RabbitMQ.Client.ExchangeType.Direct, bool durable = true, bool autoDelete = false, IDictionary<string, object> args = null);
+        void Declare(string name, string type, bool durable = true, bool autoDelete = false, IDictionary<string, object> args = null, List<QueueAddressModel> queues = null);
+        void Declare(string name, string queue, string type, bool durable = true, bool autoDelete = false, IDictionary<string, object> args = null);
         void Delete(string name, bool ifUnused = true);
     }
 }

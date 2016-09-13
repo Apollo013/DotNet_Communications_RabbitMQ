@@ -103,7 +103,7 @@ namespace MessageService.Services.AddressServices
         /// <exception cref="ArgumentNullException"></exception>
         /// <exception cref="ServiceException"></exception>
         /// <exception cref="ValidationException"></exception>        
-        public void DeclareMany(IEnumerable<QueueAddressModel> queues)
+        public void DeclareMany(List<QueueAddressModel> queues)
         {
             if (queues == null)
             {
@@ -154,7 +154,7 @@ namespace MessageService.Services.AddressServices
         /// <exception cref="ArgumentNullException"></exception>
         /// <exception cref="ServiceException"></exception>
         /// <exception cref="ValidationException"></exception> 
-        public void BindMany(IEnumerable<QueueBindingModel> bindings)
+        public void BindMany(List<QueueBindingModel> bindings)
         {
             if (bindings == null)
             {
@@ -218,7 +218,7 @@ namespace MessageService.Services.AddressServices
         /// <exception cref="ArgumentNullException"></exception>
         /// <exception cref="ServiceException"></exception>
         /// <exception cref="ValidationException"></exception>        
-        public void DeleteMany(IEnumerable<QueueDeleteModel> queues)
+        public void DeleteMany(List<QueueDeleteModel> queues)
         {
             if (queues == null)
             {

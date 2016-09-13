@@ -52,19 +52,19 @@ namespace MessageService.Services.TransportServices.Publishers
             {
                 Validate(message, "Message cannot be null");
                 Channel.BasicReturn += BasicReturn;
-                ExchangeService.Declare(name: message.ExchangeName, queue: message.RoutingKey);
+                ExchangeService.Declare(name: message.ExchangeName, queue: message.RoutingKey, type: message.SendType);
                 Channel.BasicPublish(message.GetPublicationAddress(), message.BasicProperties, message.GetBytes());
                 return true;
             }
             catch (OperationInterruptedException ex)
             {
                 Logger.Warn(ex.Message);
-                throw new ServiceException("Queue Service Exception: Queue still in use or is not empty the likely cause, please see log for more details.");
+                throw new ServiceException("Publish Service Exception: Queue still in use or is not empty the likely cause, please see log for more details.");
             }
             catch (Exception ex)
             {
                 Logger.Error(ex.Message);
-                throw new ServiceException("Queue Service Exception: please see log for more details.");
+                throw new ServiceException("Publish Service Exception: please see log for more details.");
             }
         }
 

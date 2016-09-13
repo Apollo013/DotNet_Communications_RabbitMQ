@@ -16,11 +16,10 @@ namespace Models.ServiceModels.MessageModels
         {
             switch (SendType)
             {
-                case ExchangeType.Direct:
-                    return String.IsNullOrWhiteSpace(RoutingKey) ?
-                        new PublicationAddress(SendType, ExchangeName, "") :
-                        new PublicationAddress(SendType, "", RoutingKey);
-                default:
+                case ExchangeType.Fanout:
+                    return new PublicationAddress(SendType, ExchangeName, "");
+
+                default: // Direct
                     return String.IsNullOrWhiteSpace(RoutingKey) ?
                         new PublicationAddress(SendType, ExchangeName, "") :
                         new PublicationAddress(SendType, "", RoutingKey);
@@ -33,6 +32,19 @@ namespace Models.ServiceModels.MessageModels
             if (String.IsNullOrEmpty(ExchangeName) && String.IsNullOrEmpty(RoutingKey))
             {
                 error = "Please supply either an exchange name or routing key to send the message to";
+                return false;
+            }
+
+
+            if (SendType.Equals(ExchangeType.Direct) && String.IsNullOrEmpty(RoutingKey))
+            {
+                error = "Please supply a queue name to send the message directly to";
+                return false;
+            }
+
+            if (SendType.Equals(ExchangeType.Fanout) && String.IsNullOrEmpty(ExchangeName))
+            {
+                error = "Please supply an exchange name to send the message to";
                 return false;
             }
 

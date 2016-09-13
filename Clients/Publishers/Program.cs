@@ -10,12 +10,17 @@ namespace Publishers
 
     class Program
     {
+        private static ServiceManager srvcmngr = new ServiceManager();
+
         static void Main(string[] args)
         {
-            SendDirect();
+            DirectSetup();
         }
 
-        private static void SendDirect()
+        /// <summary>
+        /// Creates a new direct exchange with a queue and publishes message direct to the queue
+        /// </summary>
+        private static void DirectSetup()
         {
             /* Pattern: One Way Message Pattern
              * Related Consumer(s): DirectConsumer 
@@ -27,23 +32,24 @@ namespace Publishers
              * (D) Because the default for the message 'SendType' is 'direct' and a 'RoutingKey' is
              *     provided, the message will be sent directly to "a.new.queue".        
              */
-            using (var mngr = new ServiceManager())
-            {
-                var str = "Just testing";
-                var message = new MessageModel()
-                {
-                    Body = str,
-                    ExchangeName = "a.new.exchange",
-                    RoutingKey = "a.new.queue"
-                };
 
-                // Send the message 50 times;
-                for (int i = 0; i < 50; i++)
-                {
-                    message.Body = $"{i} - {str}";
-                    mngr.PublisherService.Publish(message);
-                }
+            var str = "Just testing";
+            var message = new MessageModel()
+            {
+                Body = str,
+                ExchangeName = "a.new.exchange",
+                RoutingKey = "a.new.queue"
+            };
+
+            // Send 50 message;
+            for (int i = 0; i < 50; i++)
+            {
+                message.Body = $"{i} - {str}";
+                srvcmngr.PublisherService.Publish(message);
             }
+
+            System.Console.WriteLine("Messages sent");
         }
+
     }
 }

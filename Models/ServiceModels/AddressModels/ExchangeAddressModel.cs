@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 
 namespace Models.ServiceModels.AddressModels
@@ -28,11 +29,11 @@ namespace Models.ServiceModels.AddressModels
         /// </summary>
         public string ExchangeType { get; set; } = RabbitMQ.Client.ExchangeType.Direct;
 
-        private IEnumerable<QueueAddressModel> _queues;
+        private List<QueueAddressModel> _queues;
         /// <summary>
         /// Gets or sets a list of related queues that are bound to the exchange
         /// </summary>
-        public IEnumerable<QueueAddressModel> Queues
+        public List<QueueAddressModel> Queues
         {
             get
             {
@@ -85,6 +86,7 @@ namespace Models.ServiceModels.AddressModels
         /// <returns></returns>
         public bool HasQueues()
         {
+            CheckQueueIntegrity();
             return Queues.Any();
         }
 
@@ -94,7 +96,10 @@ namespace Models.ServiceModels.AddressModels
         private void CheckQueueIntegrity()
         {
             if (_queues == null) { return; }
-            foreach (var q in Queues)
+
+            _queues.RemoveAll(x => String.IsNullOrWhiteSpace(x.Name));
+
+            foreach (var q in _queues)
             {
                 q.ExchangeName = Name;
             }
