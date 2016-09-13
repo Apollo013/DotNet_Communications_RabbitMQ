@@ -22,6 +22,14 @@ Developed with Visual Studio 2015 Community
 
 ---
 
+### Components
+
+Different functionality has been divided into different components. For Example, Declaring, Binding and Removing Exchanges can be found in the 'ExchangeService.cs' file. The same applies to Queues, Publishing and Consuming messages whom all have their own components. The effect is that these can all operate independently of each other.
+
+However, The 'PublisherService' contains a reference to the 'ExchangeService', which in turn has a reference to the 'QueueService', which allows us to simnply fire a message at the server, and we can be sure (if no unforeseen exceptions occur) that the exchanges and queues will be properly created and bound.
+
+---
+
 ###Techs & Languages
 |Tech|
 |----|
