@@ -1,5 +1,5 @@
 # RabbitMQ_CSharp
-A multi assembly solution demonstrating various message patterns for publishing and consuming messages with RabbitMQ. (still under development)
+A dotnet solution demonstrating various message patterns for publishing and consuming messages with RabbitMQ. (still under development)
 
 
 ---
@@ -13,10 +13,10 @@ Developed with Visual Studio 2015 Community
 |-------|
 |Various message exchange patterns using RabbitMQ (see below)|
 |Declaring & binding exchanges & queues|
-|Exchange Types: direct, fanout types|
+|Exchange Types: direct & fanout types|
 |Exchange, Queue & Message Persistence|
 |Event based consuming|
-|Creating wrapper components for managing Exchanges, Queues, Message Publisher, & Consumer, so that they can work independently, or be brought together as a single unit under a service manager component [See Here](https://github.com/Apollo013/RabbitMQ_CSharp/tree/master/MessageService/Services) and [Here](https://github.com/Apollo013/RabbitMQ_CSharp/blob/master/MessageService/Managers/ServiceManager.cs)|
+|Creating wrapper components for managing Exchanges, Queues, Message Publisher, & Consumer, so that they can work independently, or be brought together as a single unit under a service manager component [See Here] (https://github.com/Apollo013/RabbitMQ_CSharp/tree/master/MessageService/Services) and [Here](https://github.com/Apollo013/RabbitMQ_CSharp/blob/master/MessageService/Managers/ServiceManager.cs)|
 |Acknowledging and rejecting messages (Ack / Nack)|
 |RabbitMQ server configuration through appSettings - see ['ConnectionProperties' class](https://github.com/Apollo013/RabbitMQ_CSharp/blob/master/Models/ServiceModels/ConnectionModels/ConnectionProperties.cs) which extends the ['PropertyBase' class](https://github.com/Apollo013/RabbitMQ_CSharp/blob/master/Models/ServiceModels/Base/PropertyBase.cs) that automatically reads appsettings in the app.config file|
 
@@ -31,11 +31,13 @@ Developed with Visual Studio 2015 Community
 |NLog|
 ---
 
-###Message Patterns
+###Message Exchange Patterns
 |Pattern|Publisher Code|ConsumerCode|
 |-------|--------------|------------|
-|One Way Message Pattern|[Here](https://github.com/Apollo013/RabbitMQ_CSharp/blob/master/Clients/Publishers/Program.cs)|[Here](https://github.com/Apollo013/RabbitMQ_CSharp/blob/master/Clients/Consumers/Program.cs)|
-|Worker Queues Message Pattern|[Here](https://github.com/Apollo013/RabbitMQ_CSharp/blob/master/Clients/Publishers/Program.cs)|[Here](https://github.com/Apollo013/RabbitMQ_CSharp/blob/master/Clients/Consumers/Program.cs)|
+|One Way Message Exchange Pattern | [Here](https://github.com/Apollo013/RabbitMQ_CSharp/blob/master/Clients/Publishers/Program.cs) | [Here](https://github.com/Apollo013/RabbitMQ_CSharp/blob/master/Clients/Consumers/Program.cs) |
+|Worker Queues Message Exchange Pattern | [Here](https://github.com/Apollo013/RabbitMQ_CSharp/blob/master/Clients/Publishers/Program.cs) | [Here](https://github.com/Apollo013/RabbitMQ_CSharp/blob/master/Clients/Consumers/Program.cs) |
+|Publish / Subscribe Message Exchange Pattern | [Here](https://github.com/Apollo013/RabbitMQ_CSharp/blob/master/Clients/Publishers/Program.cs) | [Here](https://github.com/Apollo013/RabbitMQ_CSharp/blob/master/Clients/Consumers/Program.cs)|
+
 ---
 
 ###Solution Layout
