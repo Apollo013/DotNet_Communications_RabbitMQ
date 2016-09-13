@@ -99,7 +99,7 @@ namespace Consumers
             srvcmngr.ConsumerService.Read(new ConsumerRequest()
             {
                 QueueName = "a.new.queue",
-                QualityOfService = new QualityOfService() { PrefetchCount = 1 }
+                QualityOfService = new QualityOfService() { PrefetchCount = 1 } // Process only one message
             });
             Console.ReadLine();
         }
@@ -112,8 +112,8 @@ namespace Consumers
              * Related Publisher(s): FanoutSetup_Example1
              *                       FanoutSetup_Example2
              * What this will do ...
-             * (A) Read a single message from a specified queue
-             * (B) Send it to a custom handler 'CustomReceiveHandler'
+             * (A) Read all messages from a specified queue
+             * (B) Send message to a custom handler 'CustomReceiveHandler'
              */
 
             srvcmngr.ConsumerService.MessageConsumer.Received += CustomReceiveHandler;
