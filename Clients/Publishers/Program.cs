@@ -1,5 +1,7 @@
 ﻿using MessageService.Managers;
+using Models.ServiceModels.AddressModels;
 using Models.ServiceModels.MessageModels;
+using System.Collections.Generic;
 
 namespace Publishers
 {
@@ -14,9 +16,12 @@ namespace Publishers
 
         static void Main(string[] args)
         {
-            DirectSetup();
+            // DirectSetup();
+            FanoutSetup_Example1();
+            FanoutSetup_Example2();
         }
 
+        #region WORKER QUEUE & ONE WAY MESSAGE PATTERNS - DIRECT EXCHANGE TYPE
         /// <summary>
         /// Creates a new direct exchange with a queue and publishes message direct to the queue
         /// </summary>
@@ -50,6 +55,90 @@ namespace Publishers
 
             System.Console.WriteLine("Messages sent");
         }
+        #endregion
+
+        #region PUBLISH / SUBSCRIBE MESSAGE PATTER - 'FANOUT' EXCHANGE TYPE
+        /// <summary>
+        /// Simply sends 2 messages. During this process, the 'PublishService' component will ensure both that 
+        /// the exchange and queues are created and bound (using internal 'ExchangeService' component), prior to sending.
+        /// </summary>
+        private static void FanoutSetup_Example1()
+        {
+            /* Pattern: Publish/Subscribe Message Pattern
+             * Related Consumer(s): FanOutRecevier
+             * What this will do ...
+             * (A) Send a message to all queues on the 'a.fanout.exchange', The type for this exchange will be 'fanout'.
+             *     (This has not been created yet, but Publish service which uses the exchange service component, will create it, the queue, and bind them.)
+             * (B) The result of this is; "a.fanout.queue_1" containing a single message        
+             * (C) Process '(A)' is repeated but with a different queue: "a.fanout.queue_2".
+             * (D) The result of this is: "a.fanout.queue_1" containing 2 messages and "a.fanout.queue_2" containing a single message.
+             */
+            var str = "Just testing a fanout exchange";
+            var message = new MessageModel()
+            {
+                Body = str + " a.fanout.queue_1",
+                ExchangeName = "a.fanout.exchange",
+                RoutingKey = "a.fanout.queue_1",
+                SendType = RabbitMQ.Client.ExchangeType.Fanout
+            };
+
+            srvcmngr.PublisherService.Publish(message);
+
+            // Send a second message
+            message = new MessageModel()
+            {
+                Body = str + " a.fanout.queue_2",
+                ExchangeName = "a.fanout.exchange",
+                RoutingKey = "a.fanout.queue_2",
+                SendType = RabbitMQ.Client.ExchangeType.Fanout
+            };
+
+            srvcmngr.PublisherService.Publish(message);
+            System.Console.WriteLine("Messages sent");
+        }
+
+        /// <summary>
+        /// Creates and binds the exchange and queues using the 'ExchangeService' Component, 
+        /// then sends the message using the 'PublishService' Component
+        /// </summary>
+        private static void FanoutSetup_Example2()
+        {
+            /* Pattern: Publish/Subscribe Message Pattern
+             * Related Consumer(s): FanOutRecevier
+             * What this will do ...
+             * (A) Create an exchange with 2 queues.
+             * (B) The type for this exchange will be 'fanout'.
+             * (C) Send a single message.
+             * (D) The result of this is: Both queues containing 2 a single message .
+             */
+
+            // Create the exchange using the exchange service component
+            ExchangeAddressModel exchange = new ExchangeAddressModel()
+            {
+                Name = "b.fanout.exchange",
+                ExchangeType = RabbitMQ.Client.ExchangeType.Fanout,
+                Queues = new List<QueueAddressModel>()
+                {
+                    new QueueAddressModel() { Name = "b.fanout.queue_1" },
+                    new QueueAddressModel() { Name = "b.fanout.queue_2" }
+                }
+            };
+            srvcmngr.ExchangeService.Declare(exchange);
+
+            // Sends the message using the publish service component
+            var str = "Just testing a fanout exchange";
+            var message = new MessageModel()
+            {
+                Body = str,
+                ExchangeName = "b.fanout.exchange",
+                SendType = RabbitMQ.Client.ExchangeType.Fanout
+            };
+
+            srvcmngr.PublisherService.Publish(message);
+            System.Console.WriteLine("Messages sent");
+        }
+        #endregion
+
 
     }
 }

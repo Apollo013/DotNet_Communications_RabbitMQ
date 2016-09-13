@@ -19,7 +19,8 @@ namespace Consumers
         {
             //DirectConsumer();
             //DirectConsumer_CustomEventHandler();
-            DirectConsumer_Worker(); // WORKER QUEUE - RUN MULTIPLE INSTANCES OF THIS PROGRAM TO CHECK
+            //DirectConsumer_Worker(); // WORKER QUEUE - RUN MULTIPLE INSTANCES OF THIS PROGRAM TO CHECK
+            FanOutRecevier();
         }
 
         #region ONE WAY MESSAGE PATTERN EXAMPLES
@@ -102,7 +103,26 @@ namespace Consumers
             });
             Console.ReadLine();
         }
+        #endregion
 
+        #region PUBLISH / SUBSCRIBE MESSAGE PATTERN - 'FANOUT' EXCHANGE TYPE
+        private static void FanOutRecevier()
+        {
+            /* Pattern: Publish/Subscribe Message Pattern
+             * Related Publisher(s): FanoutSetup_Example1
+             *                       FanoutSetup_Example2
+             * What this will do ...
+             * (A) Read a single message from a specified queue
+             * (B) Send it to a custom handler 'CustomReceiveHandler'
+             */
+
+            srvcmngr.ConsumerService.MessageConsumer.Received += CustomReceiveHandler;
+            srvcmngr.ConsumerService.Read(new ConsumerRequest()
+            {
+                QueueName = "a.fanout.queue_1"
+            });
+            Console.ReadLine();
+        }
         #endregion
 
         /// <summary>
@@ -114,5 +134,6 @@ namespace Consumers
         {
             Console.WriteLine($"Custom Handler:\t\t{Encoding.UTF8.GetString(args.Body)}");
         }
+
     }
 }
