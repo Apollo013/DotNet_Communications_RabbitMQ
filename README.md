@@ -8,27 +8,6 @@ Developed with Visual Studio 2015 Community
 
 ---
 
-###Features being demonstrated
-|Feature|
-|-------|
-|Various message exchange patterns using RabbitMQ (see below)|
-|Declaring & binding exchanges & queues|
-|Exchange Types: direct & fanout types|
-|Exchange, Queue & Message Persistence|
-|Event based consuming|
-|Creating wrapper components for managing Exchanges, Queues, Message Publisher, & Consumer, so that they can work independently, or be brought together as a single unit under a service manager component [See Here] (https://github.com/Apollo013/RabbitMQ_CSharp/tree/master/MessageService/Services) and [Here](https://github.com/Apollo013/RabbitMQ_CSharp/blob/master/MessageService/Managers/ServiceManager.cs)|
-|Acknowledging and rejecting messages (Ack / Nack)|
-|RabbitMQ server configuration through appSettings - see ['ConnectionProperties' class](https://github.com/Apollo013/RabbitMQ_CSharp/blob/master/Models/ServiceModels/ConnectionModels/ConnectionProperties.cs) which extends the ['PropertyBase' class](https://github.com/Apollo013/RabbitMQ_CSharp/blob/master/Models/ServiceModels/Base/PropertyBase.cs) that automatically reads appsettings in the app.config file|
-
----
-
-### Components
-
-Different functionality has been divided into different components. For Example, Declaring, Binding and Removing Exchanges can be found in the 'ExchangeService.cs' file. The same applies to Queues, Publishing and Consuming messages whom all have their own components. The effect is that these can all operate independently of each other.
-
-However, The 'PublisherService' contains a reference to the 'ExchangeService', which in turn has a reference to the 'QueueService', which allows us to simnply fire a message at the server, and we can be sure (if no unforeseen exceptions occur) that the exchanges and queues will be properly created and bound.
-
----
 
 ###Techs & Languages
 |Tech|
@@ -37,27 +16,29 @@ However, The 'PublisherService' contains a reference to the 'ExchangeService', w
 |RabbitMQ|
 |NUnit|
 |NLog|
+
+---
+
+###Features being demonstrated
+|Feature|Description
+|-------|----------|
+|Message Exchange Patterns|Various message exchange patterns using RabbitMQ (see below)|
+|Exchanges|Declaring & Binding |
+|Queues|Declaring & Binding |
+|Exchange Types| Direct & Fanout types|
+|Persistence|Exchange, Queue & Message |
+|Message Handler|Event based consuming and creation of a receiver class that derives from 'DefaultBasicConsumer'|
+|Acknowledgements| Ack & Nack|
+|Connection Configuration|RabbitMQ server configuration through appSettings - see ['ConnectionProperties' class](https://github.com/Apollo013/RabbitMQ_CSharp/tree/master/Common/RabbitMQCommon/ConnectionServices), which automatically reads appsettings from the app.config file|
+
 ---
 
 ###Message Exchange Patterns
-|Pattern|Publisher Code|ConsumerCode|
-|-------|--------------|------------|
-|One Way Message Exchange Pattern | [Here](https://github.com/Apollo013/RabbitMQ_CSharp/blob/master/Clients/Publishers/Program.cs) | [Here](https://github.com/Apollo013/RabbitMQ_CSharp/blob/master/Clients/Consumers/Program.cs) |
-|Worker Queues Message Exchange Pattern | [Here](https://github.com/Apollo013/RabbitMQ_CSharp/blob/master/Clients/Publishers/Program.cs) | [Here](https://github.com/Apollo013/RabbitMQ_CSharp/blob/master/Clients/Consumers/Program.cs) |
-|Publish / Subscribe Message Exchange Pattern | [Here](https://github.com/Apollo013/RabbitMQ_CSharp/blob/master/Clients/Publishers/Program.cs) | [Here](https://github.com/Apollo013/RabbitMQ_CSharp/blob/master/Clients/Consumers/Program.cs)|
-
----
-
-###Solution Layout
-|Assembly|Description|
-|--------|-----------|
-|Message Service|A wrapper service that contains all the components that interact with the RabbitMQ server|
-|Logging Service| Logging service wrapper|
-|Models| Contains any entity models used to pass information|
-|Tests|Unit tests using Nunit|
-|Client/Publishers|Client used for pushing messages to the server|
-|Client/Consumers|Client used to consume messages from the server|
-
+|Pattern|Location|
+|-------|--------|
+|One Way Message Exchange Pattern | [Here](https://github.com/Apollo013/RabbitMQ_CSharp/tree/master/OneWayMessageExchangePattern) |
+|Worker Queues Message Exchange Pattern | [Here](https://github.com/Apollo013/RabbitMQ_CSharp/blob/master/Clients/Publishers/Program.cs) |
+|Publish / Subscribe Message Exchange Pattern | [Here](https://github.com/Apollo013/RabbitMQ_CSharp/blob/master/Clients/Publishers/Program.cs) |
 
 ---
 
