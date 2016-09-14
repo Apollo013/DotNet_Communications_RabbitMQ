@@ -35,7 +35,7 @@ namespace OneWayConsumer
         private static void ReceiveMessagesWithDerivedClass()
         {
             // Configure how we receive messages
-            channel.BasicQos(0, 1, false); // Receive only one message at a time
+            channel.BasicQos(0, 1, false); // Process only one message at a time
 
             // Configure handler for message
             DefaultBasicConsumer basicConsumer = new OneWayMessageReceiver(channel);
@@ -47,7 +47,7 @@ namespace OneWayConsumer
         private static void ReceiveMessagesWithEvents()
         {
             // Configure how we receive messages
-            channel.BasicQos(0, 1, false); // Receive only one message at a time
+            channel.BasicQos(0, 1, false); // Process only one message at a time
 
             // Configure handler for message
             EventingBasicConsumer eventingBasicConsumer = new EventingBasicConsumer(channel);
