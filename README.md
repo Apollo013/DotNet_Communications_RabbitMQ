@@ -29,7 +29,7 @@ Developed with Visual Studio 2015 Community
 |Persistence|Exchange, Queue & Message |
 |Message Handler|Event based consuming and creation of a receiver class that derives from 'DefaultBasicConsumer'|
 |Acknowledgements| Ack & Nack|
-|Connection Configuration|RabbitMQ server configuration through appSettings - see ['ConnectionProperties' class](https://github.com/Apollo013/RabbitMQ_CSharp/tree/master/Common/RabbitMQCommon/ConnectionServices), which automatically reads appsettings from the app.config file|
+|Connection Configuration|RabbitMQ server configuration through appSettings - see ['ConnectionProperties' class](https://github.com/Apollo013/RabbitMQ_CSharp/tree/master/Common/RabbitMQCommon/ConnectionServices), which automatically reads from app.config file or applies defaults using **Reflection** & a custom **Attribute** |
 
 ---
 
@@ -39,7 +39,7 @@ Developed with Visual Studio 2015 Community
 |One Way Message Exchange Pattern | [Here](https://github.com/Apollo013/RabbitMQ_CSharp/tree/master/OneWayMessageExchangePattern) |
 |Worker Queues Message Exchange Pattern | [Here](https://github.com/Apollo013/RabbitMQ_CSharp/tree/master/OneWayMessageExchangePattern) |
 |Publish / Subscribe Message Exchange Pattern | [Here](https://github.com/Apollo013/RabbitMQ_CSharp/tree/master/PublishSubscribeMessageExchangePattern) |
-
+|Two Way Message Exchange Pattern with Remote Procedure Calls | [Here](https://github.com/Apollo013/RabbitMQ_CSharp/tree/master/TwoWayMessageExchangePattern) |
 ---
 
 ###Resources
