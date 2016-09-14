@@ -7,6 +7,9 @@ using System.Threading;
 
 namespace OneWayConsumer
 {
+
+    // You can run multiple instances of this to enact a Worker Queue Message Exchange Pattern
+
     class Program
     {
         private static IConnection connection = ConnectionService.CreateConnection();
