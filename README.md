@@ -25,7 +25,7 @@ Developed with Visual Studio 2015 Community
 |Message Exchange Patterns| (see below)|
 |Exchanges|Declaring & Binding |
 |Queues|Declaring & Binding |
-|Exchange Types| Direct, Topic, & Fanout types|
+|Exchange Types| Direct, Topic, Header & Fanout types|
 |Persistence|Exchange, Queue & Message |
 |Message Handler|Event based consuming and creation of a receiver class that derives from 'DefaultBasicConsumer'|
 |Acknowledgements| Ack & Nack|
