@@ -53,11 +53,10 @@ namespace PublishSubscribe.ManagementConsumer
             Console.WriteLine($"Message received from the exchange {e.Exchange}");
             Console.WriteLine($"Content type: {basicProperties.ContentType}");
             Console.WriteLine($"Consumer tag: {e.ConsumerTag}");
-            Console.WriteLine($"Delivery tag: { e.DeliveryTag}");
+            Console.WriteLine($"Delivery tag: {e.DeliveryTag}");
 
             string message = Encoding.UTF8.GetString(e.Body);
-            Console.WriteLine($"Message: {message}");
-            Console.WriteLine($"Message received by the management consumer: { message}");
+            Console.WriteLine($"Message received by the management consumer: {message}");
             channel.BasicAck(e.DeliveryTag, false);
         }
     }

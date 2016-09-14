@@ -56,8 +56,7 @@ namespace PublishSubscribe.AccountingConsumer
             Console.WriteLine($"Delivery tag: { e.DeliveryTag}");
 
             string message = Encoding.UTF8.GetString(e.Body);
-            Console.WriteLine($"Message: {message}");
-            Console.WriteLine($"Message received by the accounting consumer: { message}");
+            Console.WriteLine($"Message received by the accounting consumer: {message}");
             channel.BasicAck(e.DeliveryTag, false);
         }
     }
