@@ -27,6 +27,12 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RPC.Publisher", "TwoWayMess
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RPC.Consumer", "TwoWayMessageExchangePattern\RPC.Consumer\RPC.Consumer.csproj", "{DEA073F4-7A2B-4026-AA94-DF2EE940D515}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "RoutingKeys", "RoutingKeys", "{8E39CDDE-C192-41D4-81ED-B8C9DD6CE221}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RoutingKeys.Publisher", "RoutingKeys\RoutingKeys.Publisher\RoutingKeys.Publisher.csproj", "{44BC2F9B-9C11-405E-9715-9AB74F7AFB62}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RoutingKeys.Consumer", "RoutingKeys\RoutingKeys.Consumer\RoutingKeys.Consumer.csproj", "{487D3203-88B2-4A30-9C20-637B29A956D1}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -65,6 +71,14 @@ Global
 		{DEA073F4-7A2B-4026-AA94-DF2EE940D515}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{DEA073F4-7A2B-4026-AA94-DF2EE940D515}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{DEA073F4-7A2B-4026-AA94-DF2EE940D515}.Release|Any CPU.Build.0 = Release|Any CPU
+		{44BC2F9B-9C11-405E-9715-9AB74F7AFB62}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{44BC2F9B-9C11-405E-9715-9AB74F7AFB62}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{44BC2F9B-9C11-405E-9715-9AB74F7AFB62}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{44BC2F9B-9C11-405E-9715-9AB74F7AFB62}.Release|Any CPU.Build.0 = Release|Any CPU
+		{487D3203-88B2-4A30-9C20-637B29A956D1}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{487D3203-88B2-4A30-9C20-637B29A956D1}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{487D3203-88B2-4A30-9C20-637B29A956D1}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{487D3203-88B2-4A30-9C20-637B29A956D1}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -78,5 +92,7 @@ Global
 		{F470EC13-BEAA-43C5-BFD9-5738D9C4DAB0} = {67FF3A67-4318-42B3-8AC1-134DBDCED63A}
 		{E618D1D3-C886-4282-9151-A0A50D136393} = {8D3217CD-4118-48C2-9646-777BFA1B49DE}
 		{DEA073F4-7A2B-4026-AA94-DF2EE940D515} = {8D3217CD-4118-48C2-9646-777BFA1B49DE}
+		{44BC2F9B-9C11-405E-9715-9AB74F7AFB62} = {8E39CDDE-C192-41D4-81ED-B8C9DD6CE221}
+		{487D3203-88B2-4A30-9C20-637B29A956D1} = {8E39CDDE-C192-41D4-81ED-B8C9DD6CE221}
 	EndGlobalSection
 EndGlobal
