@@ -3,33 +3,22 @@ using RabbitMQ.Client.Events;
 using RabbitMQCommon.ConnectionServices;
 using System;
 using System.Text;
+using System.Threading;
 
 namespace OneWayConsumer
 {
     class Program
     {
-        private static IModel channelForEventing;
+        private static IConnection connection = ConnectionService.CreateConnection();
+        private static IModel channel = connection.CreateModel();
 
         static void Main(string[] args)
         {
-            // ReceiveMessagesWithDerivedClass ();
+            //ReceiveMessagesWithDerivedClass();
             ReceiveMessagesWithEvents();
-        }
 
-        private static void ReceiveMessagesWithDerivedClass()
-        {
-            // Create a Connection and Channel for receiving message
-            IConnection connection = ConnectionService.CreateConnection();
-            IModel channel = connection.CreateModel();
-
-            // Configure how we receive messages
-            channel.BasicQos(0, 1, false); // Receive only one message at a time
-
-            // Configure handler for message
-            DefaultBasicConsumer basicConsumer = new OneWayMessageReceiver(channel);
-
-            // Consume message from queue
-            channel.BasicConsume("my.first.queue", false, basicConsumer);
+            // Give it time to consume messages
+            Thread.Sleep(2000);
 
             // Close Connection & Channel
             channel.Close();
@@ -40,29 +29,29 @@ namespace OneWayConsumer
             Console.ReadKey();
         }
 
-        private static void ReceiveMessagesWithEvents()
+        private static void ReceiveMessagesWithDerivedClass()
         {
-            // Create a Connection and Channel for receiving message
-            IConnection connection = ConnectionService.CreateConnection();
-            channelForEventing = connection.CreateModel();
-
             // Configure how we receive messages
-            channelForEventing.BasicQos(0, 1, false); // Receive only one message at a time
+            channel.BasicQos(0, 1, false); // Receive only one message at a time
 
             // Configure handler for message
-            EventingBasicConsumer eventingBasicConsumer = new EventingBasicConsumer(channelForEventing);
-            eventingBasicConsumer.Received += EventingBasicConsumer_Received;
+            DefaultBasicConsumer basicConsumer = new OneWayMessageReceiver(channel);
 
             // Consume message from queue
-            channelForEventing.BasicConsume("my.first.queue", false, eventingBasicConsumer);
+            channel.BasicConsume("my.first.queue", false, basicConsumer);
+        }
 
-            // Close Connection & Channel
-            channelForEventing.Close();
-            connection.Close();
+        private static void ReceiveMessagesWithEvents()
+        {
+            // Configure how we receive messages
+            channel.BasicQos(0, 1, false); // Receive only one message at a time
 
-            // Finish
-            Console.WriteLine(string.Concat("Channel is closed: ", channelForEventing.IsClosed));
-            Console.ReadKey();
+            // Configure handler for message
+            EventingBasicConsumer eventingBasicConsumer = new EventingBasicConsumer(channel);
+            eventingBasicConsumer.Received += OneWayMessageEventReceiver;
+
+            // Consume message from queue
+            channel.BasicConsume("my.first.queue", false, eventingBasicConsumer);
         }
 
         /// <summary>
@@ -70,7 +59,7 @@ namespace OneWayConsumer
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
-        private static void EventingBasicConsumer_Received(object sender, BasicDeliverEventArgs e)
+        private static void OneWayMessageEventReceiver(object sender, BasicDeliverEventArgs e)
         {
             IBasicProperties basicProperties = e.BasicProperties;
             Console.WriteLine("Message received by the event based consumer. Check the debug window for details.");
@@ -79,30 +68,7 @@ namespace OneWayConsumer
             Console.WriteLine(string.Concat("Consumer tag: ", e.ConsumerTag));
             Console.WriteLine(string.Concat("Delivery tag: ", e.DeliveryTag));
             Console.WriteLine(string.Concat("Message: ", Encoding.UTF8.GetString(e.Body)));
-            channelForEventing.BasicAck(e.DeliveryTag, false);
-        }
-    }
-
-    /// <summary>
-    /// Derived Class Message Handler
-    /// </summary>
-    class OneWayMessageReceiver : DefaultBasicConsumer
-    {
-        private IModel _channel { get; set; }
-
-        public OneWayMessageReceiver(IModel channel)
-        {
-            _channel = channel;
-        }
-        public override void HandleBasicDeliver(string consumerTag, ulong deliveryTag, bool redelivered, string exchange, string routingKey, IBasicProperties properties, byte[] body)
-        {
-            Console.WriteLine("Message received by the consumer. Check the debug window for details.");
-            Console.WriteLine(string.Concat("Message received from the exchange ", exchange));
-            Console.WriteLine(string.Concat("Content type: ", properties.ContentType));
-            Console.WriteLine(string.Concat("Consumer tag: ", consumerTag));
-            Console.WriteLine(string.Concat("Delivery tag: ", deliveryTag));
-            Console.WriteLine(string.Concat("Message: ", Encoding.UTF8.GetString(body)));
-            _channel.BasicAck(deliveryTag, false);
+            channel.BasicAck(e.DeliveryTag, false);
         }
     }
 }
