@@ -22,7 +22,7 @@ Developed with Visual Studio 2015 Community
 ###Features being demonstrated
 |Feature|Description
 |-------|----------|
-|Message Exchange Patterns|Various message exchange patterns using RabbitMQ (see below)|
+|Message Exchange Patterns| (see below)|
 |Exchanges|Declaring & Binding |
 |Queues|Declaring & Binding |
 |Exchange Types| Direct, Topic, & Fanout types|
