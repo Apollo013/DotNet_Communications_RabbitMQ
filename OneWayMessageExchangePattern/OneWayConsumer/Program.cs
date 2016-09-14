@@ -21,6 +21,14 @@ namespace OneWayConsumer
 
             // Consume message from queue
             channel.BasicConsume("my.first.queue", false, basicConsumer);
+
+            // Close Connection & Channel
+            channel.Close();
+            connection.Close();
+
+            // Finish
+            Console.WriteLine(string.Concat("Channel is closed: ", channel.IsClosed));
+            Console.ReadKey();
         }
     }
 
