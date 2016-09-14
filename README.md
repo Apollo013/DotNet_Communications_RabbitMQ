@@ -39,7 +39,7 @@ Developed with Visual Studio 2015 Community
 |One Way Message Exchange Pattern | [Here](https://github.com/Apollo013/RabbitMQ_CSharp/tree/master/OneWayMessageExchangePattern) |
 |Worker Queues Message Exchange Pattern | [Here](https://github.com/Apollo013/RabbitMQ_CSharp/tree/master/OneWayMessageExchangePattern) |
 |Publish / Subscribe Message Exchange Pattern | [Here](https://github.com/Apollo013/RabbitMQ_CSharp/tree/master/PublishSubscribeMessageExchangePattern) |
-
+|Two Way Message Exchange Pattern with Remote Procedure Calls | [Here](https://github.com/Apollo013/RabbitMQ_CSharp/tree/master/TwoWayMessageExchangePattern) |
 ---
 
 ###Resources
