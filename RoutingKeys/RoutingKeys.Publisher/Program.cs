@@ -14,12 +14,12 @@ namespace RoutingKeys.Publisher
         {
             // Exchange / Queue Declaration & Binding
             channel.ExchangeDeclare("company.exchange.routing", ExchangeType.Direct, true, false, null);
-            channel.QueueDeclare("company.exchange.queue", true, false, false, null);
+            channel.QueueDeclare("company.queue.routing", true, false, false, null);
 
             // A queue can be dedicated to one or more routing keys.
-            channel.QueueBind("company.exchange.queue", "company.exchange.routing", "asia");
-            channel.QueueBind("company.exchange.queue", "company.exchange.routing", "americas");
-            channel.QueueBind("company.exchange.queue", "company.exchange.routing", "europe");
+            channel.QueueBind("company.queue.routing", "company.exchange.routing", "asia");
+            channel.QueueBind("company.queue.routing", "company.exchange.routing", "americas");
+            channel.QueueBind("company.queue.routing", "company.exchange.routing", "europe");
 
             // Basic message properties
             IBasicProperties properties = channel.CreateBasicProperties();
