@@ -65,10 +65,6 @@
     <Compile Include="Services\TransportServices\Publishers\MessagePublisher.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\LoggingService\LoggingService.csproj">
-      <Project>{4147c3d1-5e7c-4d24-85eb-a8cac97eee5e}</Project>
-      <Name>LoggingService</Name>
-    </ProjectReference>
     <ProjectReference Include="..\Models\Models.csproj">
       <Project>{7fe60d86-02ec-4750-a440-8595f73cecf2}</Project>
       <Name>Models</Name>

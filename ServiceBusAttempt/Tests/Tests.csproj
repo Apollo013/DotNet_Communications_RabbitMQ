@@ -68,16 +68,6 @@
   <ItemGroup>
     <None Include="packages.config" />
   </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\MessageService\MessageService.csproj">
-      <Project>{44f5dc41-c7b6-4d18-bf28-9e414d4b88d2}</Project>
-      <Name>MessageService</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\Models\Models.csproj">
-      <Project>{7fe60d86-02ec-4750-a440-8595f73cecf2}</Project>
-      <Name>Models</Name>
-    </ProjectReference>
-  </ItemGroup>
   <Choose>
     <When Condition="'$(VisualStudioVersion)' == '10.0' And '$(IsCodedUITest)' == 'True'">
       <ItemGroup>
