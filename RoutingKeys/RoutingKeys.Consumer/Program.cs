@@ -21,7 +21,7 @@ namespace RoutingKeys.Consumer
             eventingBasicConsumer.Received += OneWayMessageEventReceiver;
 
             // Consume message
-            channel.BasicConsume("company.exchange.queue", false, eventingBasicConsumer);
+            channel.BasicConsume("company.queue.routing", false, eventingBasicConsumer);
         }
         private static void OneWayMessageEventReceiver(object sender, BasicDeliverEventArgs e)
         {
