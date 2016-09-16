@@ -39,7 +39,7 @@ namespace Headers.Consumer
             headersBuilder.Append("Headers: ").Append(Environment.NewLine);
             foreach (var kvp in e.BasicProperties.Headers)
             {
-                headersBuilder.Append(kvp.Key).Append(": ").Append(Encoding.UTF8.GetString(kvp.Value as byte[])).Append(Environment.NewLine);
+                headersBuilder.Append(kvp.Key).Append(": ").Append(Encoding.UTF8.GetString(kvp.Value as byte[])).Append(Environment.NewLine); //each header value is transmitted as type object which must be cast to a byte array.
             }
             Console.WriteLine(headersBuilder.ToString());
 
