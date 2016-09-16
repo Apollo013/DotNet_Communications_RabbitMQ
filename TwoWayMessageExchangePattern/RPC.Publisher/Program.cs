@@ -74,16 +74,16 @@ namespace RPC.Publisher
                 responseFromConsumer = response;
             }
 
-            // Consume message
+            // Acknowledge message
             channel.BasicAck(e.DeliveryTag, false);
             Console.WriteLine($"Response: {responseFromConsumer}");
 
             // Prompt for reply
             Console.WriteLine("Enter your message and press Enter.");
             message = Console.ReadLine();
-
-            // Send Reply
             messageBytes = Encoding.UTF8.GetBytes(message);
+
+            // Send Reply            
             channel.BasicPublish("", "mycompany.queues.rpc", props, messageBytes); //empty string parameter denotes the nameless default AMQP exchange
         }
     }

@@ -51,7 +51,7 @@ namespace RPC.Consumer
 
             // Configure reply
             IBasicProperties replyBasicProperties = channel.CreateBasicProperties();
-            replyBasicProperties.CorrelationId = e.BasicProperties.CorrelationId; // same correlation ID to its message as the one received in the initial message from the publisher
+            replyBasicProperties.CorrelationId = e.BasicProperties.CorrelationId; // same correlation ID as the one received in the initial message from the publisher
             byte[] responseBytes = Encoding.UTF8.GetBytes(response);
 
             // Send reply
