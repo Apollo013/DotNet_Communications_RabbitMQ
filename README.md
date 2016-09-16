@@ -22,10 +22,10 @@ Developed with Visual Studio 2015 Community
 ###Features being demonstrated
 |Feature|Description
 |-------|----------|
-|Message Exchange Patterns|Various message exchange patterns using RabbitMQ (see below)|
+|Message Exchange Patterns| (see below)|
 |Exchanges|Declaring & Binding |
 |Queues|Declaring & Binding |
-|Exchange Types| Direct, Topic, & Fanout types|
+|Exchange Types| Direct, Topic, Header & Fanout types|
 |Persistence|Exchange, Queue & Message |
 |Message Handler|Event based consuming and creation of a receiver class that derives from 'DefaultBasicConsumer'|
 |Acknowledgements| Ack & Nack|
@@ -42,6 +42,7 @@ Developed with Visual Studio 2015 Community
 |Two Way Message Exchange Pattern with Remote Procedure Calls | [Here](https://github.com/Apollo013/RabbitMQ_CSharp/tree/master/TwoWayMessageExchangePattern) |
 |Routing Keys Message Exchange Pattern | [Here](https://github.com/Apollo013/RabbitMQ_CSharp/tree/master/RoutingKeys) |
 |Topics Message Exchange Pattern | [Here](https://github.com/Apollo013/RabbitMQ_CSharp/tree/master/TopicsMessageExchangePattern) |
+|Headers Message Exchange Pattern | [Here](https://github.com/Apollo013/RabbitMQ_CSharp/tree/master/HeadersMessageExchangePattern) |
 
 ---
 
