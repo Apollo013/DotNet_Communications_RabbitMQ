@@ -27,8 +27,8 @@ namespace RPC.Publisher
             // Declare a Queue (response queue will be dynamically set up !)
             channel.QueueDeclare("mycompany.queues.rpc", true, false, false, null);
 
-            // Publisg & Consume messages
-            SendRpcMessagesBackAndForth(channel);
+            // Publish & Consume messages
+            Send(channel);
 
             // Give it time to process
             Thread.Sleep(60000);
@@ -42,7 +42,7 @@ namespace RPC.Publisher
             Console.ReadKey();
         }
 
-        private static void SendRpcMessagesBackAndForth(IModel channel)
+        private static void Send(IModel channel)
         {
             // Configure message
             basicProperties.ReplyTo = rpcResponseQueue;
