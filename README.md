@@ -36,13 +36,13 @@ Developed with Visual Studio 2015 Community
 ###Message Exchange Patterns
 |Pattern|Location|
 |-------|--------|
-|One Way Message Exchange Pattern | [Here](https://github.com/Apollo013/RabbitMQ_CSharp/tree/master/OneWayMessageExchangePattern) |
-|Worker Queues Message Exchange Pattern | [Here](https://github.com/Apollo013/RabbitMQ_CSharp/tree/master/OneWayMessageExchangePattern) |
-|Publish / Subscribe Message Exchange Pattern | [Here](https://github.com/Apollo013/RabbitMQ_CSharp/tree/master/PublishSubscribeMessageExchangePattern) |
-|Two Way Message Exchange Pattern with Remote Procedure Calls | [Here](https://github.com/Apollo013/RabbitMQ_CSharp/tree/master/TwoWayMessageExchangePattern) |
-|Routing Keys Message Exchange Pattern | [Here](https://github.com/Apollo013/RabbitMQ_CSharp/tree/master/RoutingKeys) |
-|Topics Message Exchange Pattern | [Here](https://github.com/Apollo013/RabbitMQ_CSharp/tree/master/TopicsMessageExchangePattern) |
-|Headers Message Exchange Pattern | [Here](https://github.com/Apollo013/RabbitMQ_CSharp/tree/master/HeadersMessageExchangePattern) |
+|One Way | [Here](https://github.com/Apollo013/RabbitMQ_CSharp/tree/master/OneWayMessageExchangePattern) |
+|Worker Queues | [Here](https://github.com/Apollo013/RabbitMQ_CSharp/tree/master/OneWayMessageExchangePattern) |
+|Publish / Subscribe | [Here](https://github.com/Apollo013/RabbitMQ_CSharp/tree/master/PublishSubscribeMessageExchangePattern) |
+|Two Way with RPC | [Here](https://github.com/Apollo013/RabbitMQ_CSharp/tree/master/TwoWayMessageExchangePattern) |
+|Routing Keys | [Here](https://github.com/Apollo013/RabbitMQ_CSharp/tree/master/RoutingKeys) |
+|Topics | [Here](https://github.com/Apollo013/RabbitMQ_CSharp/tree/master/TopicsMessageExchangePattern) |
+|Headers | [Here](https://github.com/Apollo013/RabbitMQ_CSharp/tree/master/HeadersMessageExchangePattern) |
 
 ---
 
