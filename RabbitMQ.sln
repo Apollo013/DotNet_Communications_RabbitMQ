@@ -45,6 +45,14 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Headers.Publisher", "Header
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Headers.Consumer", "HeadersMessageExchangePattern\Headers.Consumer\Headers.Consumer.csproj", "{49131F94-6869-4855-A926-6B3AC6CAAE6C}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "ScatterGatherMessageExchangePattern", "ScatterGatherMessageExchangePattern", "{BB0AB997-27C2-4248-95D2-2106919A369B}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ScatterGather.Publisher", "ScatterGatherMessageExchangePattern\ScatterGather.Publisher\ScatterGather.Publisher.csproj", "{165BA57D-F5CE-44B8-8E2A-12F6FCA90398}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ScatterGather.Consumer", "ScatterGatherMessageExchangePattern\ScatterGather.Consumer\ScatterGather.Consumer.csproj", "{07917152-C86A-4B30-8591-811A73464734}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ScatterGather.ConsumerB", "ScatterGatherMessageExchangePattern\ScatterGather.ConsumerB\ScatterGather.ConsumerB.csproj", "{BDAC41CC-DAC8-4C85-A870-E9B87AD21D84}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -107,6 +115,18 @@ Global
 		{49131F94-6869-4855-A926-6B3AC6CAAE6C}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{49131F94-6869-4855-A926-6B3AC6CAAE6C}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{49131F94-6869-4855-A926-6B3AC6CAAE6C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{165BA57D-F5CE-44B8-8E2A-12F6FCA90398}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{165BA57D-F5CE-44B8-8E2A-12F6FCA90398}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{165BA57D-F5CE-44B8-8E2A-12F6FCA90398}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{165BA57D-F5CE-44B8-8E2A-12F6FCA90398}.Release|Any CPU.Build.0 = Release|Any CPU
+		{07917152-C86A-4B30-8591-811A73464734}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{07917152-C86A-4B30-8591-811A73464734}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{07917152-C86A-4B30-8591-811A73464734}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{07917152-C86A-4B30-8591-811A73464734}.Release|Any CPU.Build.0 = Release|Any CPU
+		{BDAC41CC-DAC8-4C85-A870-E9B87AD21D84}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{BDAC41CC-DAC8-4C85-A870-E9B87AD21D84}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{BDAC41CC-DAC8-4C85-A870-E9B87AD21D84}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{BDAC41CC-DAC8-4C85-A870-E9B87AD21D84}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -126,5 +146,8 @@ Global
 		{1A08CDF1-7B6E-4E2A-A1C4-1C5B3BED769A} = {DD97410B-0056-4B56-858B-17D0A0424051}
 		{CE035962-EEBC-4027-95FD-C9E4CAB3BDC8} = {11D0F928-C4E6-4FF4-8D34-345E73356B30}
 		{49131F94-6869-4855-A926-6B3AC6CAAE6C} = {11D0F928-C4E6-4FF4-8D34-345E73356B30}
+		{165BA57D-F5CE-44B8-8E2A-12F6FCA90398} = {BB0AB997-27C2-4248-95D2-2106919A369B}
+		{07917152-C86A-4B30-8591-811A73464734} = {BB0AB997-27C2-4248-95D2-2106919A369B}
+		{BDAC41CC-DAC8-4C85-A870-E9B87AD21D84} = {BB0AB997-27C2-4248-95D2-2106919A369B}
 	EndGlobalSection
 EndGlobal
