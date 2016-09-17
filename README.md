@@ -43,6 +43,7 @@ Developed with Visual Studio 2015 Community
 |Routing Keys | [Here](https://github.com/Apollo013/RabbitMQ_CSharp/tree/master/RoutingKeys) |
 |Topics | [Here](https://github.com/Apollo013/RabbitMQ_CSharp/tree/master/TopicsMessageExchangePattern) |
 |Headers | [Here](https://github.com/Apollo013/RabbitMQ_CSharp/tree/master/HeadersMessageExchangePattern) |
+|Scatter / Gather | [Here](https://github.com/Apollo013/RabbitMQ_CSharp/tree/master/ScatterGatherMessageExchangePattern) |
 
 ---
 
