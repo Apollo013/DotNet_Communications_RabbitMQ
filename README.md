@@ -1,5 +1,5 @@
 # RabbitMQ_CSharp
-A dotnet solution demonstrating various message patterns for publishing and consuming messages with RabbitMQ.
+A .Net solution demonstrating various message patterns for publishing and consuming messages with RabbitMQ.
 
 
 ---
